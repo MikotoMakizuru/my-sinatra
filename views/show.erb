@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>MemoApp | Show</title>
+</head>
+<body>
+	<h1>メモアプリ</h1>
+	<a href="/memos">< 一覧</a>
+	<dl>
+		<dt>タイトル</dt>
+		<dd>
+			<%=@title%>
+		</dd>
+
+		<dt>内容</dt>
+		<dd>
+			<%=@content%>
+		</dd>
+	</dl>
+	<button class="change" type="button" onclick="location.href='/memos/edit'">変更</button>
+	<button class="delete" type="button">削除</button>
+</body>
+</html>
