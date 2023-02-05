@@ -5,7 +5,7 @@ require 'ulid'
 
 FILE_PATH = "memos/memos.json"
 
-# memos = []
+memos = []
 
 get '/' do
 	redirect '/memos'
@@ -31,7 +31,7 @@ post '/' do
 		'title'=>params[:title],
 		'content'=>params[:content]
 	}
-	memo_json = JSON.generate(memo)
+	memo_json = JSON.pretty_generate(memo)
 	File.open(FILE_PATH, 'a') do |file|
 		str = JSON.dump(memo_json, file)
 	end
