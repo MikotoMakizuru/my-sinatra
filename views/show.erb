@@ -7,18 +7,20 @@
 <body>
 	<h1>メモアプリ</h1>
 	<a href="/memos">< 一覧</a>
-	<dl>
-		<dt>タイトル</dt>
-		<dd>
-			<%=@title%>
-		</dd>
-
-		<dt>内容</dt>
-		<dd>
-			<%=@content%>
-		</dd>
-	</dl>
-	<button class="change" type="button" onclick="location.href='/memos/edit'">変更</button>
-	<button class="delete" type="button">削除</button>
+	  <div>
+			<% @memos.each do |memo| %>
+				<p><%= memo[:title] %></p>
+				<p><%= memo[:content] %></p>
+		</div>
+		<div>
+			<form method="GET" action=<%= "/memos/#{memo[:memo_id]}/edit" %>>
+				<input type="submit" value="編集">
+			</form>
+			<form method="POST" action=<%= "/memos/#{memo[:memo_id]}" %>>
+				<input type="hidden" name="_method" value="DELETE">
+				<input type="submit" value="削除">
+			</form>
+			<% end %>
+		</div>
 </body>
 </html>

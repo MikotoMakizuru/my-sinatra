@@ -8,8 +8,18 @@
 	<h1>メモアプリ</h1>
 	<a href="/memos/new">追加</a>
 		<ul>
-			<% @memos.each do |memo|  %>
-				<li><%= memo %></li>
+			<% if @memos == nil %>
+					<%= @memos %>
+			<% else %>
+				<% @memos.each do |memo|  %>
+					<% if memo.empty? %>
+						<% nil %>
+					<% else %>
+						<li>
+							<a href=<%= "/memos/#{memo["memo_id"]}" %> ><%= memo["title"] %></a>
+						</li>
+					<% end %>
+				<% end %>
 			<% end %>
 		</ul>
 </body>

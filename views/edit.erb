@@ -7,19 +7,21 @@
 <body>
 	<h1>メモアプリ</h1>
 	<a href="/memos">< 一覧</a>
-		<form action="" method="get" class="form">
-			<div class="form-title">
-				<label for="title">タイトル</label>
-				<p>
-					<input type="text" name="title" id="title" required>
-				</p>
-			<div class="form-content">
-				<label for="content">内容</label>
-				<p>
-					<input type="text" name="content" id="content" required>
-				</p>
+	<% @memos.each do |memo| %>
+		<form action=<%= "/memos/#{memo[:memo_id]}" %> method="POST">
+			<div>
+				タイトル<br>
+				<input type="text" name="title" value="<%= memo[:title] %>" required>
+			</div>
+			<div>
+				内容<br>
+				<input type="text" name="content" value="<%= memo[:content] %>" required>
+			</div>
+			<div>
+			  <input type="hidden" name="_method" value="patch">
+				<input type="submit" value="変更">
 			</div>
 		</form>
-		<button class="change" type="button" onclick="location.href='/memos'">変更</button>
+	<% end %>
 </body>
 </html>
