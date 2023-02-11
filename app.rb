@@ -9,7 +9,7 @@ require 'erb'
 FILE_PATH = 'memos/memos.json'
 
 helpers do
-  def h(text)
+  def text_escape(text)
     escape_html(text)
   end
 end
@@ -30,66 +30,65 @@ end
 
 post '/' do
   memo = {
-          'memo_id' => ULID.generate,
-          'title'   => "#{h(params[:title])}",
-          'content' => "#{h(params[:content])}"
-				}
-	File.open(FILE_PATH) do |file|
-		load_memos = JSON.load(file)
-		load_memos << memo
-		File.open(FILE_PATH, "w") { |file| JSON.dump(load_memos, file) }
-	end
-	redirect '/memos'
+    'memo_id' => ULID.generate,
+    'title' => text_escape(params[:title]).to_s,
+    'content' => text_escape(params[:content]).to_s
+  }
+  File.open(FILE_PATH) do |file|
+    load_memos = JSON.load(file)
+    load_memos << memo
+    File.open(FILE_PATH, 'w') { |file| JSON.dump(load_memos, file) }
+  end
+  redirect '/memos'
 end
 
 get '/memos/:memo_id' do |memo_id|
-	memos = File.open(FILE_PATH) { |file| JSON.load(file) }
-	memos.each do |memo|
-		if memo_id == memo['memo_id']
-			@memo_id = memo['memo_id']
-			@title = memo['title']
-			@content = memo['content']
-		end
-	end
-	erb :show
+  memos = File.open(FILE_PATH) { |file| JSON.load(file) }
+  memos.each do |memo|
+    next unless memo_id == memo['memo_id']
+
+    @memo_id = memo['memo_id']
+    @title = memo['title']
+    @content = memo['content']
+  end
+  erb :show
 end
 
 get '/memos/:memo_id/edit' do |memo_id|
-	memos = File.open(FILE_PATH) { |file| JSON.load(file) }
-	memos.each do |memo|
-		if memo_id == memo['memo_id']
-			@memo_id = memo['memo_id']
-			@title = memo['title']
-			@content = memo['content']
-		end
-	end
-	erb :edit
+  memos = File.open(FILE_PATH) { |file| JSON.load(file) }
+  memos.each do |memo|
+    next unless memo_id == memo['memo_id']
+
+    @memo_id = memo['memo_id']
+    @title = memo['title']
+    @content = memo['content']
+  end
+  erb :edit
 end
 
 patch '/memos/:memo_id' do |memo_id|
-	title = "#{h(params[:title])}"
-	content = "#{h(params[:content])}"
+  title = text_escape(params[:title]).to_s
+  content = text_escape(params[:content]).to_s
 
-	memos = File.open(FILE_PATH) { |file| JSON.load(file) }
-	memos.each do |memo|
-		if memo_id == memo['memo_id']
+  memos = File.open(FILE_PATH) { |file| JSON.load(file) }
+  memos.each do |memo|
+    next unless memo_id == memo['memo_id']
 
-			memo['title'] = title
-			memo['content'] = content
-			File.open(FILE_PATH, "w") { |file| JSON.dump(memos, file) }
-		end
-	end
-	redirect "/memos/#{memo_id}"
+    memo['title'] = title
+    memo['content'] = content
+    File.open(FILE_PATH, 'w') { |file| JSON.dump(memos, file) }
+  end
+  redirect "/memos/#{memo_id}"
 end
 
 delete '/memos/:memo_id' do |memo_id|
-	memos = File.open(FILE_PATH) { |file| JSON.load(file) }
+  memos = File.open(FILE_PATH) { |file| JSON.load(file) }
   memos.each do |memo|
-		if memo_id == memo['memo_id']
-			memos.delete(memo)
-			File.open(FILE_PATH, "w") { |file| JSON.dump(memos, file) }
-		end
-	end
-	erb :index
-	redirect '/memos'
+    if memo_id == memo['memo_id']
+      memos.delete(memo)
+      File.open(FILE_PATH, 'w') { |file| JSON.dump(memos, file) }
+    end
+  end
+  erb :index
+  redirect '/memos'
 end
