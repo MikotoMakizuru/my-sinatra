@@ -47,7 +47,7 @@ post '/' do
     'title': text_escape(params[:title]).to_s,
     'content': text_escape(params[:content]).to_s
   }
-  memos = JSON.parse(File.read(FILE_PATH))
+  memos = memos_get
   memos << memo
   File.open(FILE_PATH, 'w') { |file| JSON.dump(memos, file) }
   redirect '/memos'
