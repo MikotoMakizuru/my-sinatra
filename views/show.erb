@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style.css" />
+  <title>MemoApp | Show</title>
+</head>
+<body>
+  <h1><a href="/memos" style="text-decoration:none; color:inherit;">✎メモアプリ</a></h1>
+    <div>
+      <p><%= @title %></p>
+      <p><%= @content %></p>
+    </div>
+    <div>
+      <form method="GET" action=<%="/memos/#{@memo_id}/edit" %>> <button type="submit" class="btn btn-secondary">編集</button> </form>
+      <form method="POST" action=<%="/memos/#{@memo_id}" %>> <input type="hidden" name="_method" value="DELETE"> <button type="submit" class="btn o">削除</button> </form>
+    </div>
+</body>
+</html>
