@@ -26,11 +26,12 @@ Railsという巨大なフレームワークで開発する前に、シンプル
 
 # テーブル定義
 ```
-# CREATA TABLE memos (
+# CREATE TABLE memos (
     memo_id SERIAL NOT NULL PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     content VARCHAR(1000) NOT NULL,
-    created_date TIMESTAMP NOT NULL
+    created_date TIMESTAMP NOT NULL,
+    updated_date TIMESTAMP
 );
 ```
 
