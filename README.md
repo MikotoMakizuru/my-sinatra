@@ -19,6 +19,22 @@ Railsという巨大なフレームワークで開発する前に、シンプル
 |PATCH|/memos/memo_id|メモの内容を変更する|
 |DELETE|/memos/memo_id|メモを削除する|
 
+# DB作成
+```
+# CREATE DATABASE memo_app;
+```
+
+# テーブル定義
+```
+# CREATE TABLE memos (
+    memo_id SERIAL NOT NULL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    content VARCHAR(1000) NOT NULL,
+    created_date TIMESTAMP NOT NULL,
+    updated_date TIMESTAMP
+);
+```
+
 # ローカルでアプリケーションを立ち上げるための手順
 ```
 # ローカルに複製
@@ -35,5 +51,3 @@ Railsという巨大なフレームワークで開発する前に、シンプル
 ```
 以下のURLにアクセスして表示
 http://127.0.0.1:4567/
-
-上記のURLにアクセスすると、memos ディレクトリ配下に`[]`と書かれた memos.json ファイルが作成されます
